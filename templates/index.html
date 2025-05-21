@@ -2,18 +2,74 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Dashboard</h2>
-    <p>Inpatients: ... (coming next)</p>
-    <p>Outpatients: ... (coming next)</p>
+    <h2 class="mb-4">Hospital Dashboard</h2>
+    
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Patients</h5>
+                    <p class="card-text display-6">{{ num_patients }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Inpatients</h5>
+                    <p class="card-text display-6">{{ inpatients }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Outpatients</h5>
+                    <p class="card-text display-6">{{ outpatients }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-info h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Doctors</h5>
+                    <p class="card-text display-6">{{ num_doctors }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-secondary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Admissions</h5>
+                    <p class="card-text display-6">{{ num_admissions }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-dark h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Appointments</h5>
+                    <p class="card-text display-6">{{ num_appointments }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% if is_logged_in %}
-        <a class="btn btn-primary" href="{{ url_for('patient.patient_list') }}">View Patients</a>
-        <a class="btn btn-primary ml-2" href="{{ url_for('admission.admission_list') }}">View Admissions</a>
-        <a class="btn btn-primary" href="{{ url_for('doctor.doctor_list') }}">View Doctors</a>
-        <a class="btn btn-primary" href="{{ url_for('appointment.appointment_list') }}">View Appointments</a>
-
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" href="{{ url_for('patient.patient_list') }}">View Patients</a>
+        <a class="btn btn-outline-success" href="{{ url_for('admission.admission_list') }}">View Admissions</a>
+        <a class="btn btn-outline-info" href="{{ url_for('doctor.doctor_list') }}">View Doctors</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('appointment.appointment_list') }}">View Appointments</a>
+    </div>
     {% else %}
-        <p class="text-muted">Log in to view detailed records.</p>
+    <p class="mt-4 text-muted">Log in to view detailed records.</p>
     {% endif %}
 </div>
 {% endblock %}

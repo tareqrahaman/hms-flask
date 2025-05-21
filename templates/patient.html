@@ -2,34 +2,8 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Patient List</h2>
-
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th>Inpatient</th>
-                <th>Test Taken</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for patient in patients %}
-            <tr>
-                <td>{{ patient.Patient_ID }}</td>
-                <td>{{ patient.Patient_FName }} {{ patient.Patient_LName }}</td>
-                <td>{{ patient.Patient_Contact_Number }}</td>
-                <td>{{ patient.Patient_Address }}</td>
-                <td>{{ 'Yes' if patient.IsInpatient else 'No' }}</td>
-                <td>{{ 'Yes' if patient.AnyTestTaken else 'No' }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3 class="mt-5">Add New Patient</h3>
+    
+    <h3 class="mb-3">Add New Patient</h3>
 <form method="POST" action="{{ url_for('patient.add_patient') }}">
     <div class="form-row d-flex align-items-end">
         <div class="form-group col-md-2 pr-md-2">
@@ -68,5 +42,31 @@
         </div>
     </div>
 </form>
+<h3 class="mb-3">Patient List</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Inpatient</th>
+                <th>Test Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.Patient_ID }}</td>
+                <td>{{ patient.Patient_FName }} {{ patient.Patient_LName }}</td>
+                <td>{{ patient.Patient_Contact_Number }}</td>
+                <td>{{ patient.Patient_Address }}</td>
+                <td>{{ 'Yes' if patient.IsInpatient else 'No' }}</td>
+                <td>{{ 'Yes' if patient.AnyTestTaken else 'No' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

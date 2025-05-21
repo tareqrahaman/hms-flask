@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Appointment List</h2>
 
+    <!-- Add New Appointment Form -->
+    <h3 class="mb-3">Add New Appointment</h3>
     <form method="POST" action="{{ url_for('appointment.add_appointment') }}" class="mb-5">
         <div class="row g-3">
             <div class="col-md-4 pe-md-2">
@@ -27,6 +28,8 @@
         </div>
     </form>
 
+    <!-- Appointment List -->
+    <h3 class="mt-5 mb-3">Appointment List</h3>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
