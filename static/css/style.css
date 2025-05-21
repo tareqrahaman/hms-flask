@@ -25,3 +25,7 @@ header {
 h2 {
     color: #0a74da;
 }
+/* static/css/style.css */
+.form-row.mt-3 {
+    margin-bottom: 2rem; /* Adds space below the button */
+}

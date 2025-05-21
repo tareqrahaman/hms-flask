@@ -1,28 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<section class="section" id="appointments">
-    <h2>Appointments</h2>
-    <p>Details about upcoming and past appointments.</p>
-</section>
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+    <p>Inpatients: ... (coming next)</p>
+    <p>Outpatients: ... (coming next)</p>
 
-<section class="section" id="diagnosis">
-    <h2>Diagnoses</h2>
-    <p>Medical diagnoses and reports.</p>
-</section>
+    {% if is_logged_in %}
+        <a class="btn btn-primary" href="{{ url_for('patient.patient_list') }}">View Patients</a>
 
-<section class="section" id="inpatient">
-    <h2>Inpatient Data</h2>
-    <p>Details about current admitted patients.</p>
-</section>
-
-<section class="section" id="outpatient">
-    <h2>Outpatient Data</h2>
-    <p>Information on patients who visited but weren’t admitted.</p>
-</section>
-
-<section class="section" id="rooms">
-    <h2>Room Allocations</h2>
-    <p>Room assignment status and availability.</p>
-</section>
+    {% else %}
+        <p class="text-muted">Log in to view detailed records.</p>
+    {% endif %}
+</div>
 {% endblock %}

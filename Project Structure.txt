@@ -1,0 +1,32 @@
+Cox-Hospital/
+│
+├── app.py                        # Entry point of the Flask app
+├── db.py                         # SQL Server DB connection setup
+├── config.py                     # Configuration file (optional but recommended)
+│
+├── models/                       # SQLAlchemy ORM models
+│   ├── __init__.py
+│   ├── patient.py
+│   ├── admission.py
+│   ├── diagnosis.py
+│   └── ... (other models)
+│
+├── routes/                       # Flask routes for each section
+│   ├── __init__.py
+│   ├── patient_routes.py
+│   ├── admission_routes.py
+│   ├── diagnosis_routes.py
+│   └── ... (other routes)
+│
+├── templates/                    # HTML templates
+│   ├── layout.html
+│   ├── index.html
+│   ├── patient.html
+│   └── ... (other pages)
+│
+├── static/                       # CSS, JS, and image files
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+└── README.md                     # Project overview and setup guide

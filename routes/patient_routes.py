@@ -4,14 +4,14 @@ from models.patient import Patient
 
 patient_bp = Blueprint('patient', __name__)
 
-@patient_bp.route('/patients')
+@patient_bp.route('/')
 def patient_list():
     session = SessionLocal()
     patients = session.query(Patient).all()
     session.close()
     return render_template('patient.html', patients=patients)
 
-@patient_bp.route('/patients/add', methods=['POST'])
+@patient_bp.route('/add', methods=['POST'])
 def add_patient():
     session = SessionLocal()
     new_patient = Patient(
@@ -27,4 +27,3 @@ def add_patient():
     session.commit()
     session.close()
     return redirect(url_for('patient.patient_list'))
-
