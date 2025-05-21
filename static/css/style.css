@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+header {
+    background-color: #0a74da;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.login-btn {
+    background: white;
+    color: #0a74da;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.section {
+    padding: 60px 20px;
+    border-bottom: 1px solid #ddd;
+}
+h2 {
+    color: #0a74da;
+}

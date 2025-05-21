@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Patient List</h2>
+<table border="1">
+    <tr>
+        <th>ID</th><th>Name</th><th>Contact</th><th>Address</th><th>Inpatient</th><th>Test Taken</th>
+    </tr>
+    {% for patient in patients %}
+    <tr>
+        <td>{{ patient.Patient_ID }}</td>
+        <td>{{ patient.Patient_FName }} {{ patient.Patient_LName }}</td>
+        <td>{{ patient.Patient_Contact_Number }}</td>
+        <td>{{ patient.Patient_Address }}</td>
+        <td>{{ 'Yes' if patient.IsInpatient else 'No' }}</td>
+        <td>{{ 'Yes' if patient.AnyTestTaken else 'No' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Add Patient</h3>
+<form method="POST" action="{{ url_for('patient.add_patient') }}">
+    <input name="Patient_ID" placeholder="ID" required>
+    <input name="Patient_FName" placeholder="First Name">
+    <input name="Patient_LName" placeholder="Last Name">
+    <input name="Patient_Contact_Number" placeholder="Contact">
+    <input name="Patient_Address" placeholder="Address">
+    <label><input type="checkbox" name="IsInpatient"> Inpatient</label>
+    <label><input type="checkbox" name="AnyTestTaken"> Test Taken</label>
+    <button type="submit">Add</button>
+</form>
+{% endblock %}
