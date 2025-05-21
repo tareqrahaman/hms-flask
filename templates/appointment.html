@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Appointment List</h2>
+
+    <form method="POST" action="{{ url_for('appointment.add_appointment') }}" class="mb-5">
+        <div class="row g-3">
+            <div class="col-md-4 pe-md-2">
+                <input type="text" name="Appointment_ID" class="form-control" placeholder="Appointment ID" required>
+            </div>
+            <div class="col-md-4 px-md-2">
+                <input type="text" name="Patient_ID" class="form-control" placeholder="Patient ID">
+            </div>
+            <div class="col-md-4 ps-md-2">
+                <input type="text" name="Doctor_ID" class="form-control" placeholder="Doctor ID">
+            </div>
+            <div class="col-md-6 pe-md-2">
+                <input type="date" name="Appointment_Date" class="form-control">
+            </div>
+            <div class="col-md-6 ps-md-2">
+                <input type="time" name="Appointment_Time" class="form-control">
+            </div>
+            <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-success">Add Appointment</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.Appointment_ID }}</td>
+                <td>{{ appointment.Patient_ID }}</td>
+                <td>{{ appointment.Doctor_ID }}</td>
+                <td>{{ appointment.Appointment_Date }}</td>
+                <td>{{ appointment.Appointment_Time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

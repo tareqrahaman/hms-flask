@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Doctor List</h2>
+
+    <form method="POST" action="{{ url_for('doctor.add_doctor') }}" class="mb-5">
+        <div class="row g-3">
+            <div class="col-md-4 pe-md-2">
+                <input type="text" name="Doctor_ID" class="form-control" placeholder="Doctor ID" required>
+            </div>
+            <div class="col-md-4 px-md-2">
+                <input type="text" name="Doctor_FName" class="form-control" placeholder="First Name">
+            </div>
+            <div class="col-md-4 ps-md-2">
+                <input type="text" name="Doctor_LName" class="form-control" placeholder="Last Name">
+            </div>
+            <div class="col-md-4 pe-md-2">
+                <input type="text" name="Department_ID" class="form-control" placeholder="Department ID">
+            </div>
+            <div class="col-md-4 px-md-2">
+                <input type="text" name="Doctor_Contact_Number" class="form-control" placeholder="Contact Number">
+            </div>
+            <div class="col-md-2 px-md-1">
+                <input type="number" name="Visit_Fee" class="form-control" step="0.01" placeholder="Visit Fee">
+            </div>
+            <div class="col-md-2 ps-md-1">
+                <input type="number" name="Room_Num" class="form-control" placeholder="Room Number">
+            </div>
+            <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-success">Add Doctor</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Contact</th>
+                <th>Visit Fee</th>
+                <th>Room</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{ doctor.Doctor_ID }}</td>
+                <td>{{ doctor.Doctor_FName }} {{ doctor.Doctor_LName }}</td>
+                <td>{{ doctor.Department_ID }}</td>
+                <td>{{ doctor.Doctor_Contact_Number }}</td>
+                <td>{{ doctor.Visit_Fee }}</td>
+                <td>{{ doctor.Room_Num }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

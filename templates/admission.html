@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Admission Records</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Admission ID</th>
+                <th>Patient ID</th>
+                <th>Room Number</th>
+                <th>Admission Date</th>
+                <th>Discharge Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admission in admissions %}
+            <tr>
+                <td>{{ admission.Admission_ID }}</td>
+                <td>{{ admission.Patient_ID }}</td>
+                <td>{{ admission.Room_Num }}</td>
+                <td>{{ admission.Admission_Date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ admission.Release_Date.strftime('%Y-%m-%d') if admission.Release_Date else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 class="mt-5">Add New Admission</h3>
+    <form method="POST" action="{{ url_for('admission.add_admission') }}">
+        <div class="form-row d-flex align-items-end">
+            <div class="form-group col-md-3 pr-md-2">
+                <input type="text" name="Admission_ID" class="form-control" placeholder="Admission ID" required>
+            </div>
+            <div class="form-group col-md-3 px-md-2">
+                <input type="text" name="Patient_ID" class="form-control" placeholder="Patient ID" required>
+            </div>
+            <div class="form-group col-md-2 px-md-2">
+                <input type="text" name="Room_Num" class="form-control" placeholder="Room Number">
+            </div>
+            <div class="form-group col-md-2 px-md-2">
+                <input type="date" name="Admission_Date" class="form-control" required>
+            </div>
+            <div class="form-group col-md-2 pl-md-2">
+                <input type="date" name="Discharge_Date" class="form-control">
+            </div>
+        </div>
+        
+        <div class="form-row mt-3 mb-5">  <!-- Added mb-5 for bottom spacing -->
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-success">Add Admission</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,10 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from routes.patient_routes import patient_bp
+from routes.admission_routes import admission_bp
+from jinja2 import FileSystemLoader
+from routes.doctor_routes import doctor_bp
+from routes.appointment_routes import appointment_bp
+
 
 app = Flask(__name__)
+#below is force to block caching
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.debug = True
+app.jinja_loader = FileSystemLoader('templates')
+
 app.secret_key = 'Monia47'  # Needed for session management
 
 app.register_blueprint(patient_bp, url_prefix='/patients')
+app.register_blueprint(admission_bp, url_prefix='/admissions')
+app.register_blueprint(doctor_bp, url_prefix='/doctors')
+app.register_blueprint(appointment_bp, url_prefix='/appointments')
 
 # Hardcoded credentials (for now)
 USERS = {
