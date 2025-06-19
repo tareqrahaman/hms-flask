@@ -39,10 +39,9 @@ def home():
     outpatients = num_patients - inpatients
     session_db.close()
 
-    is_logged_in = 'user' in session
+
     return render_template(
         'index.html',
-        is_logged_in=is_logged_in,
         num_patients=num_patients,
         num_doctors=num_doctors,
         num_admissions=num_admissions,
@@ -67,6 +66,11 @@ def login():
 def logout():
     session.pop('user', None)
     return redirect(url_for('home'))
+
+@app.context_processor
+def inject_user_status():
+    return {'is_logged_in': 'user' in session}
+
 
 if __name__ == '__main__':
     app.run(debug=True)

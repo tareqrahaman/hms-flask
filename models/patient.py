@@ -11,3 +11,4 @@ class Patient(Base):
     IsInpatient = Column(Boolean, nullable=False, default=False)
     AnyTestTaken = Column(Boolean, nullable=False, default=False)
     Patient_Address = Column(String(40))
+    IsDeleted = Column(Boolean, nullable=False, default=False)
