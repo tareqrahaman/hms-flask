@@ -38,3 +38,30 @@ def delete_patient(patient_id):
     session.close()
     return redirect(url_for('patient.patient_list'))
 
+@patient_bp.route('/edit/<string:patient_id>')
+def edit_patient(patient_id):
+    session = SessionLocal()
+    patient = session.query(Patient).filter_by(Patient_ID=patient_id, IsDeleted=False).first()
+    session.close()
+    if patient:
+        return render_template('edit_patient.html', patient=patient)
+    return redirect(url_for('patient.patient_list'))
+
+
+@patient_bp.route('/update/<string:patient_id>', methods=['POST'])
+def update_patient(patient_id):
+    session = SessionLocal()
+    patient = session.query(Patient).filter_by(Patient_ID=patient_id, IsDeleted=False).first()
+    if patient:
+        patient.Patient_FName = request.form['Patient_FName']
+        patient.Patient_LName = request.form['Patient_LName']
+        patient.Patient_Contact_Number = request.form['Patient_Contact_Number']
+        patient.Patient_Address = request.form['Patient_Address']
+        patient.IsInpatient = 'IsInpatient' in request.form
+        patient.AnyTestTaken = 'AnyTestTaken' in request.form
+        session.commit()
+    session.close()
+    return redirect(url_for('patient.patient_list'))
+
+
+

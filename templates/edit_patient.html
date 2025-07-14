@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">Edit Patient</h3>
+    <form method="POST" action="{{ url_for('patient.update_patient', patient_id=patient.Patient_ID) }}">
+        <div class="form-row d-flex align-items-end">
+            <div class="form-group col-md-2">
+                <input type="text" name="Patient_ID" class="form-control" value="{{ patient.Patient_ID }}" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Patient_FName" class="form-control" value="{{ patient.Patient_FName }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Patient_LName" class="form-control" value="{{ patient.Patient_LName }}" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" name="Patient_Contact_Number" class="form-control" value="{{ patient.Patient_Contact_Number }}" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" name="Patient_Address" class="form-control" value="{{ patient.Patient_Address }}" required>
+            </div>
+        </div>
+        <div class="form-row mt-3">
+            <div class="form-check col-md-2">
+                <input type="checkbox" name="IsInpatient" class="form-check-input" id="edit_inpatient" {% if patient.IsInpatient %}checked{% endif %}>
+                <label for="edit_inpatient" class="form-check-label">Inpatient</label>
+            </div>
+            <div class="form-check col-md-2">
+                <input type="checkbox" name="AnyTestTaken" class="form-check-input" id="edit_test" {% if patient.AnyTestTaken %}checked{% endif %}>
+                <label for="edit_test" class="form-check-label">Test Taken</label>
+            </div>
+        </div>
+        <div class="form-row mt-3">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url_for('patient.patient_list') }}" class="btn btn-secondary ms-3">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

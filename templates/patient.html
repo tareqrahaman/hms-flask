@@ -71,6 +71,8 @@
                             <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
                         </button>
                     </form>
+                     <!-- Update Button -->
+                    <a href="{{ url_for('patient.edit_patient', patient_id=patient.Patient_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
                 </td>
             </tr>
             {% endfor %}
