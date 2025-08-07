@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Date, Time, ForeignKey
+from sqlalchemy import Column, String, Date, Time, ForeignKey, Boolean
 from models import Base
 
 class Appointment(Base):
@@ -9,3 +9,4 @@ class Appointment(Base):
     Doctor_ID = Column(String(20), ForeignKey('Doctor.Doctor_ID'))
     Appointment_Date = Column(Date)
     Appointment_Time = Column(Time)
+    IsDeleted = Column(Boolean, nullable=False, default=False)

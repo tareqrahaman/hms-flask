@@ -2,12 +2,12 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from db import SessionLocal
 from models.admission import Admission
 from models.patient import Patient
-admission_bp = Blueprint('admission', __name__, url_prefix='/admission')
+admission_bp = Blueprint('admission', __name__)
 
 @admission_bp.route('/')
 def admission_list():
     session = SessionLocal()
-    admissions = session.query(Admission).all()
+    admissions = session.query(Admission).filter_by(IsDeleted=False).all()
     session.close()
     return render_template('admission.html', admissions=admissions)
 
@@ -27,3 +27,38 @@ def add_admission():
     session.commit()
     session.close()
     return redirect(url_for('admission.admission_list'))
+
+@admission_bp.route('/delete/<string:admission_id>', methods=['POST'])
+def delete_admission(admission_id):
+    session = SessionLocal()
+    admission = session.query(Admission).filter_by(Admission_ID=admission_id).first()
+    if admission:
+        admission.IsDeleted = True
+        session.commit()
+    session.close()
+    return redirect(url_for('admission.admission_list'))
+
+
+@admission_bp.route('/edit/<string:admission_id>')
+def edit_admission(admission_id):
+    session = SessionLocal()
+    admission = session.query(Admission).filter_by(Admission_ID=admission_id, IsDeleted=False).first()
+    session.close()
+    if admission:
+        return render_template('edit_admission.html', admission=admission)
+    return redirect(url_for('admission.admission_list'))
+
+
+@admission_bp.route('/update/<string:admission_id>', methods=['POST'])
+def update_admission(admission_id):
+    session = SessionLocal()
+    admission = session.query(Admission).filter_by(Admission_ID=admission_id, IsDeleted=False).first()
+    if admission:
+        admission.Patient_ID = request.form['Patient_ID']
+        admission.Room_Num = int(request.form['Room_Num'])
+        admission.Admission_Date = request.form['Admission_Date']
+        admission.Release_Date = request.form['Release_Date']
+        session.commit()
+    session.close()
+    return redirect(url_for('admission.admission_list'))
+

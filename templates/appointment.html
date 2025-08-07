@@ -31,13 +31,14 @@
     <!-- Appointment List -->
     <h3 class="mt-5 mb-3">Appointment List</h3>
     <table class="table table-bordered table-striped">
-        <thead class="table-dark">
+        <thead class="thead-dark">
             <tr>
                 <th>ID</th>
                 <th>Patient</th>
                 <th>Doctor</th>
                 <th>Date</th>
                 <th>Time</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -48,9 +49,36 @@
                 <td>{{ appointment.Doctor_ID }}</td>
                 <td>{{ appointment.Appointment_Date }}</td>
                 <td>{{ appointment.Appointment_Time }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('appointment.delete_appointment', appointment_id=appointment.Appointment_ID) }}" class="d-inline delete-form">
+                        <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-id="{{ appointment.Appointment_ID }}">
+                            <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
+                        </button>
+                    </form>
+                    <a href="{{ url_for('appointment.edit_appointment', appointment_id=appointment.Appointment_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this appointment?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

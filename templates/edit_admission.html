@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">Edit Admission</h3>
+    <form method="POST" action="{{ url_for('admission.update_admission', admission_id=admission.Admission_ID) }}">
+        <div class="form-row d-flex align-items-end">
+            <div class="form-group col-md-3">
+                <input type="text" name="Admission_ID" class="form-control" value="{{ admission.Admission_ID }}" readonly>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" name="Patient_ID" class="form-control" value="{{ admission.Patient_ID }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Room_Num" class="form-control" value="{{ admission.Room_Num }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="date" name="Admission_Date" class="form-control" value="{{ admission.Admission_Date }}">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="date" name="Release_Date" class="form-control" value="{{ admission.Release_Date }}">
+            </div>
+        </div>
+        <div class="form-row mt-3">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url_for('admission.admission_list') }}" class="btn btn-secondary ms-3">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

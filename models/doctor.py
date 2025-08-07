@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Numeric, SmallInteger, ForeignKey
+from sqlalchemy import Column, String, Numeric, SmallInteger, ForeignKey, Boolean
 from models import Base
 
 class Doctor(Base):
@@ -11,3 +11,5 @@ class Doctor(Base):
     Doctor_Contact_Number = Column(String(20))
     Visit_Fee = Column(Numeric(10, 2))
     Room_Num = Column(SmallInteger, ForeignKey('Room.Room_Num'))
+    IsDeleted = Column(Boolean, nullable=False, default=False)
+

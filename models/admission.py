@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, SmallInteger, Date, ForeignKey
+from sqlalchemy import Column, String, SmallInteger, Date, ForeignKey, Boolean
 from models import Base
 
 class Admission(Base):
@@ -9,3 +9,4 @@ class Admission(Base):
     Room_Num = Column(SmallInteger, ForeignKey('Room.Room_Num'))
     Admission_Date = Column(Date, nullable=False)
     Release_Date = Column(Date, nullable=False)
+    IsDeleted = Column(Boolean, nullable=False, default=False)
