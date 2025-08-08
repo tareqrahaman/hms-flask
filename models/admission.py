@@ -6,7 +6,7 @@ class Admission(Base):
 
     Admission_ID = Column(String(20), primary_key=True)
     Patient_ID = Column(String(20), ForeignKey('Patient.Patient_ID'))
-    Room_Num = Column(SmallInteger, ForeignKey('Room.Room_Num'))
+    Room_Num = Column(SmallInteger)
     Admission_Date = Column(Date, nullable=False)
     Release_Date = Column(Date, nullable=False)
     IsDeleted = Column(Boolean, nullable=False, default=False)

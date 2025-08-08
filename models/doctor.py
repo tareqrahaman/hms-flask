@@ -7,9 +7,9 @@ class Doctor(Base):
     Doctor_ID = Column(String(20), primary_key=True)
     Doctor_FName = Column(String(15))
     Doctor_LName = Column(String(15))
-    Department_ID = Column(String(20), ForeignKey('Department.Department_ID'))
+    Department_ID = Column(String(20))
     Doctor_Contact_Number = Column(String(20))
     Visit_Fee = Column(Numeric(10, 2))
-    Room_Num = Column(SmallInteger, ForeignKey('Room.Room_Num'))
+    Room_Num = Column(SmallInteger)
     IsDeleted = Column(Boolean, nullable=False, default=False)
 

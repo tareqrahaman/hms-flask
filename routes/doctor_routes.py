@@ -7,7 +7,7 @@ doctor_bp = Blueprint('doctor', __name__)
 @doctor_bp.route('/')
 def doctor_list():
     session = SessionLocal()
-    doctors = session.query(Doctor).all()
+    doctors = session.query(Doctor).filter_by(IsDeleted=False).all()
     session.close()
     return render_template('doctor.html', doctors=doctors)
 
@@ -25,5 +25,39 @@ def add_doctor():
     )
     session.add(new_doctor)
     session.commit()
+    session.close()
+    return redirect(url_for('doctor.doctor_list'))
+
+@doctor_bp.route('/delete/<string:doctor_id>', methods=['POST'])
+def delete_doctor(doctor_id):
+    session = SessionLocal()
+    doctor = session.query(Doctor).filter_by(Doctor_ID=doctor_id).first()
+    if doctor:
+        doctor.IsDeleted = True
+        session.commit()
+    session.close()
+    return redirect(url_for('doctor.doctor_list'))
+
+@doctor_bp.route('/edit/<string:doctor_id>')
+def edit_doctor(doctor_id):
+    session = SessionLocal()
+    doctor = session.query(Doctor).filter_by(Doctor_ID=doctor_id, IsDeleted=False).first()
+    session.close()
+    if doctor:
+        return render_template('edit_doctor.html', doctor=doctor)
+    return redirect(url_for('doctor.doctor_list'))
+
+@doctor_bp.route('/update/<string:doctor_id>', methods=['POST'])
+def update_doctor(doctor_id):
+    session = SessionLocal()
+    doctor = session.query(Doctor).filter_by(Doctor_ID=doctor_id, IsDeleted=False).first()
+    if doctor:
+        doctor.Doctor_FName = request.form['Doctor_FName']
+        doctor.Doctor_LName = request.form['Doctor_LName']
+        doctor.Department_ID = request.form['Department_ID']
+        doctor.Doctor_Contact_Number = request.form['Doctor_Contact_Number']
+        doctor.Visit_Fee = request.form['Visit_Fee']
+        doctor.Room_Num = request.form['Room_Num']
+        session.commit()
     session.close()
     return redirect(url_for('doctor.doctor_list'))

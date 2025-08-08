@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">Edit Doctor</h3>
+    <form method="POST" action="{{ url_for('doctor.update_doctor', doctor_id=doctor.Doctor_ID) }}">
+        <div class="form-row d-flex align-items-end">
+            <div class="form-group col-md-2">
+                <input type="text" name="Doctor_ID" class="form-control" value="{{ doctor.Doctor_ID }}" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Doctor_FName" class="form-control" value="{{ doctor.Doctor_FName }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Doctor_LName" class="form-control" value="{{ doctor.Doctor_LName }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Department_ID" class="form-control" value="{{ doctor.Department_ID }}" required>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="Doctor_Contact_Number" class="form-control" value="{{ doctor.Doctor_Contact_Number }}" required>
+            </div>
+            <div class="form-group col-md-1">
+                <input type="number" name="Visit_Fee" class="form-control" value="{{ doctor.Visit_Fee }}" required>
+            </div>
+            <div class="form-group col-md-1">
+                <input type="text" name="Room_Num" class="form-control" value="{{ doctor.Room_Num }}" required>
+            </div>
+        </div>
+        <div class="form-row mt-3">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url_for('doctor.doctor_list') }}" class="btn btn-secondary ms-3">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
