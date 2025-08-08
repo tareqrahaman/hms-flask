@@ -1,7 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if current_role %}
+<div class="alert alert-info">
+    You are logged in as <strong>{{ current_role|capitalize }}</strong>.
+</div>
+{% endif %}
 <div class="container mt-4">
+  {% if current_role == 'manager' %}
     <h3 class="mb-3">Add New Doctor</h3>
 <form method="POST" action="{{ url_for('doctor.add_doctor') }}">
   <div class="form-row d-flex align-items-end">
@@ -47,7 +53,7 @@
     </div>
   </div>
 </form>
-
+ {% endif %}
 
     <h3 class="mb-3">Doctor List</h3>
     <table class="table table-bordered table-striped">
@@ -59,7 +65,9 @@
                 <th>Contact</th>
                 <th>Visit Fee</th>
                 <th>Room</th>
-                <th>Action</th>
+                {% if current_role == 'manager' %}
+                  <th>Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -71,6 +79,7 @@
                 <td>{{ doctor.Doctor_Contact_Number }}</td>
                 <td>{{ doctor.Visit_Fee }}</td>
                 <td>{{ doctor.Room_Num }}</td>
+                {% if current_role == 'manager' %}
                 <td>
                     <form method="POST" action="{{ url_for('doctor.delete_doctor', doctor_id=doctor.Doctor_ID) }}" class="d-inline delete-form">
                         <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-doctor-id="{{ doctor.Doctor_ID }}">
@@ -79,6 +88,7 @@
                     </form>
                     <a href="{{ url_for('doctor.edit_doctor', doctor_id=doctor.Doctor_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

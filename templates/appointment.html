@@ -1,9 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if current_role %}
+<div class="alert alert-info">
+    You are logged in as <strong>{{ current_role|capitalize }}</strong>.
+</div>
+{% endif %}
 <div class="container mt-4">
 
     <!-- Add New Appointment Form -->
+    {% if current_role == 'manager' %}
     <h3 class="mb-3">Add New Appointment</h3>
     <form method="POST" action="{{ url_for('appointment.add_appointment') }}" class="mb-5">
         <div class="row g-3">
@@ -27,6 +33,7 @@
             </div>
         </div>
     </form>
+    {% endif %}
 
     <!-- Appointment List -->
     <h3 class="mt-5 mb-3">Appointment List</h3>
@@ -38,7 +45,9 @@
                 <th>Doctor</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Action</th>
+                {% if current_role == 'manager' %}
+                    <th>Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -49,6 +58,7 @@
                 <td>{{ appointment.Doctor_ID }}</td>
                 <td>{{ appointment.Appointment_Date }}</td>
                 <td>{{ appointment.Appointment_Time }}</td>
+                {% if current_role == 'manager' %}
                 <td>
                     <form method="POST" action="{{ url_for('appointment.delete_appointment', appointment_id=appointment.Appointment_ID) }}" class="d-inline delete-form">
                         <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-id="{{ appointment.Appointment_ID }}">
@@ -57,6 +67,7 @@
                     </form>
                     <a href="{{ url_for('appointment.edit_appointment', appointment_id=appointment.Appointment_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

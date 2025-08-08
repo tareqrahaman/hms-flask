@@ -1,48 +1,56 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if current_role %}
+    <div class="alert alert-info">
+        You are logged in as <strong>{{ current_role|capitalize }}</strong>.
+    </div>
+{% endif %}
 <div class="container mt-4">
-    
+
+    {% if current_role == 'manager' %}
     <h3 class="mb-3">Add New Patient</h3>
-<form method="POST" action="{{ url_for('patient.add_patient') }}">
-    <div class="form-row d-flex align-items-end">
-        <div class="form-group col-md-2 pr-md-2">
-            <input type="text" name="Patient_ID" class="form-control" placeholder="ID" required>
-        </div>
-        <div class="form-group col-md-2 px-md-2">
-            <input type="text" name="Patient_FName" class="form-control" placeholder="First Name">
-        </div>
-        <div class="form-group col-md-2 px-md-2">
-            <input type="text" name="Patient_LName" class="form-control" placeholder="Last Name">
-        </div>
-        <div class="form-group col-md-3 px-md-2">
-            <input type="text" name="Patient_Contact_Number" class="form-control" placeholder="Contact">
-        </div>
-        <div class="form-group col-md-3 pl-md-2">
-            <input type="text" name="Patient_Address" class="form-control" placeholder="Address">
-        </div>
-    </div>
-
-    <div class="form-row mt-3">
-        <div class="form-group col-md-3">
-            <div class="form-check mb-2">
-                <input type="checkbox" name="IsInpatient" class="form-check-input" id="inpatient">
-                <label class="form-check-label" for="inpatient">Inpatient</label>
+    <form method="POST" action="{{ url_for('patient.add_patient') }}">
+        <div class="form-row d-flex align-items-end">
+            <div class="form-group col-md-2 pr-md-2">
+                <input type="text" name="Patient_ID" class="form-control" placeholder="ID" required>
             </div>
-            <div class="form-check">
-                <input type="checkbox" name="AnyTestTaken" class="form-check-input" id="testTaken">
-                <label class="form-check-label" for="testTaken">Test Taken</label>
+            <div class="form-group col-md-2 px-md-2">
+                <input type="text" name="Patient_FName" class="form-control" placeholder="First Name">
+            </div>
+            <div class="form-group col-md-2 px-md-2">
+                <input type="text" name="Patient_LName" class="form-control" placeholder="Last Name">
+            </div>
+            <div class="form-group col-md-3 px-md-2">
+                <input type="text" name="Patient_Contact_Number" class="form-control" placeholder="Contact">
+            </div>
+            <div class="form-group col-md-3 pl-md-2">
+                <input type="text" name="Patient_Address" class="form-control" placeholder="Address">
             </div>
         </div>
-    </div>
 
-    <div class="form-row mt-3">
-        <div class="form-group col-md-3">
-            <button type="submit" class="btn btn-success">Add Patient</button>
+        <div class="form-row mt-3">
+            <div class="form-group col-md-3">
+                <div class="form-check mb-2">
+                    <input type="checkbox" name="IsInpatient" class="form-check-input" id="inpatient">
+                    <label class="form-check-label" for="inpatient">Inpatient</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="AnyTestTaken" class="form-check-input" id="testTaken">
+                    <label class="form-check-label" for="testTaken">Test Taken</label>
+                </div>
+            </div>
         </div>
-    </div>
-</form>
-<h3 class="mb-3">Patient List</h3>
+
+        <div class="form-row mt-3">
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-success">Add Patient</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    <h3 class="mb-3">Patient List</h3>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -53,32 +61,36 @@
                 <th>Address</th>
                 <th>Inpatient</th>
                 <th>Test Taken</th>
-                <th>Action</th>
+                {% if current_role == 'manager' %}
+                    <th>Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
-            {% for patient in patients %}
-            <tr>
-                <td>{{ patient.Patient_ID }}</td>
-                <td>{{ patient.Patient_FName }} {{ patient.Patient_LName }}</td>
-                <td>{{ patient.Patient_Contact_Number }}</td>
-                <td>{{ patient.Patient_Address }}</td>
-                <td>{{ 'Yes' if patient.IsInpatient else 'No' }}</td>
-                <td>{{ 'Yes' if patient.AnyTestTaken else 'No' }}</td>
-                <td>
-                    <form method="POST" action="{{ url_for('patient.delete_patient', patient_id=patient.Patient_ID) }}" class="d-inline delete-form">
-                        <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-patient-id="{{ patient.Patient_ID }}">
-                            <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
-                        </button>
-                    </form>
-                     <!-- Update Button -->
-                    <a href="{{ url_for('patient.edit_patient', patient_id=patient.Patient_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
-                </td>
-            </tr>
-            {% endfor %}
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.Patient_ID }}</td>
+            <td>{{ patient.Patient_FName }} {{ patient.Patient_LName }}</td>
+            <td>{{ patient.Patient_Contact_Number }}</td>
+            <td>{{ patient.Patient_Address }}</td>
+            <td>{{ 'Yes' if patient.IsInpatient else 'No' }}</td>
+            <td>{{ 'Yes' if patient.AnyTestTaken else 'No' }}</td>
+            {% if current_role == 'manager' %}
+            <td>
+                <form method="POST" action="{{ url_for('patient.delete_patient', patient_id=patient.Patient_ID) }}" class="d-inline delete-form">
+                    <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-patient-id="{{ patient.Patient_ID }}">
+                        <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
+                    </button>
+                </form>
+                <a href="{{ url_for('patient.edit_patient', patient_id=patient.Patient_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
+
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

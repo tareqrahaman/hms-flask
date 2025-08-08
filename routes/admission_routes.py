@@ -1,19 +1,25 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from db import SessionLocal
 from models.admission import Admission
 from models.patient import Patient
+from flask import session, abort
+
 admission_bp = Blueprint('admission', __name__)
 
 @admission_bp.route('/')
 def admission_list():
-    session = SessionLocal()
-    admissions = session.query(Admission).filter_by(IsDeleted=False).all()
-    session.close()
-    return render_template('admission.html', admissions=admissions)
+    session_db = SessionLocal()
+    admissions = session_db.query(Admission).filter_by(IsDeleted=False).all()
+    session_db.close()
+    current_role = session.get('role', None)
+    return render_template('admission.html', admissions=admissions, current_role=current_role)
 
 @admission_bp.route('/add', methods=['POST'])
 def add_admission():
-    session = SessionLocal()
+    if session.get('role') != 'manager':
+        abort(403)  # Forbidden
+    
+    session_db = SessionLocal()
 
     new_admission = Admission(
         Admission_ID=request.form['Admission_ID'],
@@ -23,9 +29,9 @@ def add_admission():
         Release_Date=request.form['Release_Date']
     )
 
-    session.add(new_admission)
-    session.commit()
-    session.close()
+    session_db.add(new_admission)
+    session_db.commit()
+    session_db.close()
     return redirect(url_for('admission.admission_list'))
 
 @admission_bp.route('/delete/<string:admission_id>', methods=['POST'])

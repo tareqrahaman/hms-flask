@@ -1,7 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if current_role %}
+<div class="alert alert-info">
+    You are logged in as <strong>{{ current_role|capitalize }}</strong>.
+</div>
+{% endif %}
 <div class="container mt-4">
+  {% if current_role == 'manager' %}
   <h3 class="mb-3">Add New Admission</h3>
     <form method="POST" action="{{ url_for('admission.add_admission') }}">
         <div class="form-row d-flex align-items-end">
@@ -28,6 +34,7 @@
             </div>
         </div>
     </form>
+    {% endif %}
   
   <h3 class="mb-3">Admission Records</h3>
 
@@ -39,7 +46,9 @@
                 <th>Room Number</th>
                 <th>Admission Date</th>
                 <th>Release_Date</th>
-                <th>Action</th>
+                {% if current_role == 'manager' %}
+                    <th>Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -50,14 +59,17 @@
                 <td>{{ admission.Room_Num }}</td>
                 <td>{{ admission.Admission_Date.strftime('%Y-%m-%d') }}</td>
                 <td>{{ admission.Release_Date.strftime('%Y-%m-%d') if admission.Release_Date else 'N/A' }}</td>
+                {% if current_role == 'manager' %}
                 <td>
-                <form method="POST" action="{{ url_for('admission.delete_admission', admission_id=admission.Admission_ID) }}" class="d-inline delete-form">
-                    <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-patient-id="{{ admission.Admission_ID }}">
-                        <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
-                    </button>
+                    <form method="POST" action="{{ url_for('admission.delete_admission', admission_id=admission.Admission_ID) }}" class="d-inline delete-form">
+                        <button type="button" class="btn btn-link p-0 border-0 delete-btn" data-patient-id="{{ admission.Admission_ID }}">
+                            <img src="{{ url_for('static', filename='images/delete_icon.png') }}" alt="Delete" width="20" height="20">
+                        </button>
                     </form>
                     <a href="{{ url_for('admission.edit_admission', admission_id=admission.Admission_ID) }}" class="btn btn-sm btn-outline-primary custom-margin-left">Edit</a>
                 </td>
+                {% endif %}
+
             </tr>
 
             {% endfor %}

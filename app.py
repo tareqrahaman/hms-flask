@@ -24,8 +24,10 @@ app.register_blueprint(doctor_bp, url_prefix='/doctors')
 app.register_blueprint(appointment_bp, url_prefix='/appointments')
 
 USERS = {
-    'admin': '123'
+    'staff1': {'password': 'staffpass', 'role': 'staff'},
+    'manager1': {'password': 'managerpass', 'role': 'manager'}
 }
+
 
 @app.route('/')
 def home():
@@ -55,12 +57,16 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username in USERS and USERS[username] == password:
+
+        if username in USERS and USERS[username]['password'] == password:
             session['user'] = username
+            session['role'] = USERS[username]['role']  # store role
             return redirect(url_for('home'))
         else:
             return render_template('login.html', error='Invalid credentials')
+
     return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
@@ -69,7 +75,11 @@ def logout():
 
 @app.context_processor
 def inject_user_status():
-    return {'is_logged_in': 'user' in session}
+    return {
+        'is_logged_in': 'user' in session,
+        'current_role': session.get('role', None)
+    }
+
 
 
 if __name__ == '__main__':
